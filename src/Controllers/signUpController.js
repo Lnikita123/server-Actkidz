@@ -50,7 +50,7 @@ const signUp = async function (req, res) {
       from: process.env.email,
       to: `${email}`,
       subject: "Email Verification",
-      text: `Hi There!, You have recently visited our website and entered your email. Please follow the given link to verify your email: https://job-portal-rho-two.vercel.app/verifyEmail?token=${Tokens}`,
+      text: `Hi There!, You have recently visited our website and entered your email. Please follow the given link to verify your email: https://it-eta.vercel.app/verifyEmail?token=${Tokens}`,
     };
 
     let role;
