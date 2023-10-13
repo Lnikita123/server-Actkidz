@@ -50,7 +50,7 @@ const signUp = async function (req, res) {
       from: process.env.email,
       to: `${email}`,
       subject: "Email Verification",
-      text: `Hi There!, You have recently visited our website and entered your email. Please follow the given link to verify your email: http://localhost:4000/verifyEmail?token=${Tokens}`,
+      text: `Hi There!, You have recently visited our website and entered your email. Please follow the given link to verify your email: https://job-portal-rho-two.vercel.app/verifyEmail?token=${Tokens}`,
     };
 
     let role;
@@ -109,7 +109,9 @@ const verifyEmail = async (req, res) => {
         });
         let savedUser = await candidateData.save();
 
-        return res.status(302).redirect("http://localhost:3000/Signin");
+        return res
+          .status(302)
+          .redirect("https://job-portal-rho-two.vercel.app/Signin");
       }
     });
   } catch (err) {
@@ -118,4 +120,3 @@ const verifyEmail = async (req, res) => {
 };
 
 module.exports = { signUp, verifyEmail };
-
