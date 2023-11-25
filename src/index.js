@@ -1,33 +1,28 @@
 const express = require("express");
-const mongoose = require("mongoose");
-const route = require("./Routes/route");
-const app = express();
-const multer = require("multer");
+const bodyParser = require("body-parser");
+const route = require("./Route/route");
+const { default: mongoose } = require("mongoose");
+const { Route } = require("express");
 const cors = require("cors");
-const cookieSession = require("cookie-session");
+const app = express();
+
+// Enable All CORS Requests for development use
 app.use(cors());
-app.use(multer().any());
-app.use(express.json());
-app.use(
-  cookieSession({
-    signed: false,
-    secure: false,
-    sameSite: "none",
-  })
-);
-const dotenv = require("dotenv");
-dotenv.config()
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 mongoose
-  .connect(process.env.MONGODB_URL, {
-    useNewUrlParser: true,
-  })
-
-  .then(() => console.log("mongoDB is connected"))
+  .connect(
+    "mongodb+srv://qjoxqciedfjvrzyeyh:oVDaqdgLGKDxYT58@cluster0.kczadan.mongodb.net/schoolWebsite",
+    {
+      useNewUrlParser: true,
+    }
+  )
+  .then(() => console.log("MongoDb is connected"))
   .catch((err) => console.log(err));
 
 app.use("/", route);
 
-app.listen(process.env.PORT || 4000, function () {
-  console.log("server app listening on port " + (process.env.PORT || 4000));
+app.listen(process.env.PORT || 3000, function () {
+  console.log("Express app running on port " + (process.env.PORT || 3000));
 });
