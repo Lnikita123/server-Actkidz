@@ -65,8 +65,8 @@ const {
 
 //user
 const {
-  createUser,
-  userLogin,
+  // createUser,
+  // userLogin,
   getusersData,
 } = require("../Controllers/loginController");
 const {
@@ -187,7 +187,7 @@ router.get("/getformPopupData", getformPopuData);
 router.put("/updateformPopupData/:formId", updateformPopuData);
 router.delete("/DeleteformPopupdata", DeleteformPopudata);
 //user Login
-router.post("/createUser", createUser);
-router.post("/userLogin", userLogin);
+// router.post("/createUser", createUser);
+// router.post("/userLogin", userLogin);
 router.get("/getusersData", getusersData);
 module.exports = router;
