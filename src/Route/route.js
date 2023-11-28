@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const Middleware = require("../middleware/authorization");
+// const Middleware = require("../middleware/authorization");
 const storage = multer.memoryStorage(); // using memory storage for simplicity
 const upload = multer({ storage: storage });
 const {
@@ -65,8 +65,8 @@ const {
 
 //user
 const {
-  createUser,
-  userLogin,
+  // createUser,
+  // userLogin,
   getusersData,
 } = require("../Controllers/loginController");
 const {
@@ -97,20 +97,20 @@ const {
 } = require("../Controllers/usercontactController");
 //Home//
 router.post("/createData", upload.single("Photo"), homeData);
-router.get("/getData", Middleware.loginCheck, getData);
-router.get("/getById/:homeId", Middleware.loginCheck, getById);
+router.get("/getData", getData);
+router.get("/getById/:homeId", getById);
 router.put("/updateData/:homeId", upload.single("Photo"), updateData);
 router.delete("/deleteData", Deletedata);
 router.delete("/deleteId/:homeId", DeleteById);
 // fee placeholder
 router.post("/createFeePlaceholder", feePlaceholder);
-router.get("/getfeeData", Middleware.loginCheck, getfeeData);
+router.get("/getfeeData", getfeeData);
 router.put("/updatefeeData/:feeId", updatefeeData);
 router.delete("/deleteId/:feeId", DeleteByIddata);
 router.delete("/DeletefeeData", DeletefeeData);
 //contact//
 router.post("/contactData", StudentContacts);
-router.get("/getcontactData", Middleware.loginCheck, getAllContacts);
+router.get("/getcontactData", getAllContacts);
 router.get("/getcontactById/:contactId", getContactById);
 router.put("/updateContactData/:contactId", updateContact);
 router.delete("/deletecontactData", deleteContact);
@@ -118,10 +118,10 @@ router.delete("/DeleteContactdat", DeleteContactdata);
 
 //Admission//
 router.post("/Studentadmissions", Studentadmissions);
-router.get("/getAlladmissions", Middleware.loginCheck, getAlladmissions);
+router.get("/getAlladmissions", getAlladmissions);
 router.get(
   "/getadmissionsById/:admissionId",
-  Middleware.loginCheck,
+
   getadmissionsById
 );
 router.put("/updateadmissions/:admissionId", updateadmissions);
@@ -129,7 +129,7 @@ router.delete("/deleteadmissions", deleteadmissions);
 router.delete("/Deleteadmissiondata", Deleteadmissiondata);
 //About//
 router.post("/createaboutData", upload.single("Photo"), aboutData);
-router.get("/getaboutData", Middleware.loginCheck, getaboutData);
+router.get("/getaboutData", getaboutData);
 router.get("/getaboutById/:aboutId", getaboutById);
 router.put(
   "/updataabouteData/:aboutId",
@@ -145,10 +145,10 @@ router.post(
   upload.fields([{ name: "Photo" }]),
   activityData
 );
-router.get("/getactivityData", Middleware.loginCheck, getactivityData);
+router.get("/getactivityData", getactivityData);
 router.get(
   "/getactivityById/:activityId",
-  Middleware.loginCheck,
+
   getactivityById
 );
 router.put(
@@ -161,8 +161,8 @@ router.delete("/deleteactivityId/:activityId", DeleteactivityById);
 
 //pdf
 router.post("/pdfData", upload.single("Photo"), pdfData);
-router.get("/getpdfData", Middleware.loginCheck, getpdfData);
-router.get("/getpdfById/:pdfId", Middleware.loginCheck, getpdfById);
+router.get("/getpdfData", getpdfData);
+router.get("/getpdfById/:pdfId", getpdfById);
 router.put("/updatepdfData/:pdfId", upload.single("Photo"), updatepdfData);
 router.delete("/Deletepdfdata", Deletepdfdata);
 router.delete("/DeletepdfById/:pdfId", DeletepdfById);
@@ -170,7 +170,7 @@ router.delete("/DeletepdfById/:pdfId", DeletepdfById);
 //***********  User *************//
 
 router.post("/userData", userData);
-router.get("/getuserData", Middleware.loginCheck, getuserData);
+router.get("/getuserData", getuserData);
 router.put("/updateuserData/:userId", updateuserData);
 router.delete("/Deleteuserdata", Deleteuserdata);
 
@@ -178,7 +178,7 @@ router.delete("/Deleteuserdata", Deleteuserdata);
 router.post("/userAdmissionData", userAdmissionData);
 router.get(
   "/getuserAdmissionData",
-  Middleware.loginCheck,
+
   getuserAdmissionData
 );
 router.put(
@@ -189,17 +189,17 @@ router.delete("/DeleteuserAdmissiondata", DeleteuserAdmissiondata);
 
 //UserContact
 router.post("/userContactData", userContactData);
-router.get("/getuserContactData", Middleware.loginCheck, getuserContactData);
+router.get("/getuserContactData", getuserContactData);
 router.put("/updateuserContactData/:userContactId", updateuserContactData);
 router.delete("/DeleteuserContactdata", DeleteuserContactdata);
 
 //FormPopup//
 router.post("/formPopupData", formPopuData);
-router.get("/getformPopupData", Middleware.loginCheck, getformPopuData);
+router.get("/getformPopupData", getformPopuData);
 router.put("/updateformPopupData/:formId", updateformPopuData);
 router.delete("/DeleteformPopupdata", DeleteformPopudata);
 //user Login
-router.post("/createUser", createUser);
-router.post("/userLogin", userLogin);
-router.get("/getusersData", Middleware.loginCheck, getusersData);
+// router.post("/createUser", createUser);
+// router.post("/userLogin", userLogin);
+router.get("/getusersData", getusersData);
 module.exports = router;
