@@ -1,13 +1,13 @@
-const feeModal = require("../Models/feePlaceholder");
+const careerModal = require("../Models/CareerModel");
 
-const feePlaceholder = async (req, res) => {
+const careerData = async (req, res) => {
   try {
-    const { id, Description, Link, Published } = req.body;
+    const { id, Photos, Link, Published } = req.body;
 
     // findOneAndUpdate parameters: query, update, options
-    const newData = await feeModal.findOneAndUpdate(
+    const newData = await careerModal.findOneAndUpdate(
       { id }, // Query to find the document
-      { id, Description, Link, Published }, // The data to be updated or inserted
+      { id, Photos, Link, Published }, // The data to be updated or inserted
       {
         new: true, // Return the modified document rather than the original
         upsert: true, // Create a new document if no document matches the query
@@ -26,13 +26,13 @@ const feePlaceholder = async (req, res) => {
   }
 };
 
-const getfeeData = async (req, res) => {
+const getcareerData = async (req, res) => {
   try {
-    const feeData = await feeModal.find();
+    const careerData = await careerModal.find();
     res.status(200).send({
       status: true,
-      msg: "feeData retrieved succesfully",
-      data: feeData,
+      msg: "careerData retrieved succesfully",
+      data: careerData,
     });
   } catch (err) {
     return res
@@ -40,18 +40,18 @@ const getfeeData = async (req, res) => {
       .send({ status: false, msg: "server error", error: err.message });
   }
 };
-const updatefeeData = async (req, res) => {
+const updatecareerData = async (req, res) => {
   try {
     let data = req.body;
     const { Published } = data;
-    let id = req.params.feeId;
-    const existingUnit = await feeModal.findOne({
+    let careerId = req.params.careerId;
+    const existingUnit = await careerModal.findOne({
       Published,
-      id: { $ne: id },
+      id: { $ne: careerId },
     });
 
-    let updateBody = await feeModal.findOneAndUpdate(
-      { id: id },
+    let updateBody = await careerModal.findOneAndUpdate(
+      { id: careerId },
       {
         $set: {
           Published: Published,
@@ -72,17 +72,17 @@ const updatefeeData = async (req, res) => {
   }
 };
 
-const DeleteByIddata = async (req, res) => {
+const DeletecareerById = async (req, res) => {
   try {
-    let feeId = req.params.feeId;
+    let careerId = req.params.careerId;
 
-    const page = await feeModal.findOne({ feeId: feeId });
+    const page = await careerModal.findOne({ careerId: careerId });
     if (!page) {
       return res.status(400).send({ status: false, message: `page not Found` });
     }
     if (page.isDeleted == false) {
-      await feeModal.findOneAndUpdate(
-        { feeId: feeId },
+      await careerModal.findOneAndUpdate(
+        { careerId: careerId },
         { $set: { isDeleted: true, deletedAt: new Date() } }
       );
 
@@ -100,9 +100,9 @@ const DeleteByIddata = async (req, res) => {
   }
 };
 
-const DeletefeeData = async (req, res) => {
+const DeletecareerData = async (req, res) => {
   try {
-    const result = await feeModal.deleteMany({});
+    const result = await careerModal.deleteMany({});
     res.send(`Deleted ${result.deletedCount} homedata`);
   } catch (error) {
     console.error(error);
@@ -112,9 +112,9 @@ const DeletefeeData = async (req, res) => {
   }
 };
 module.exports = {
-  feePlaceholder,
-  DeleteByIddata,
-  updatefeeData,
-  getfeeData,
-  DeletefeeData,
+  careerData,
+  DeletecareerById,
+  updatecareerData,
+  getcareerData,
+  DeletecareerData,
 };

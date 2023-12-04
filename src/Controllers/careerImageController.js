@@ -1,12 +1,15 @@
-const userContactModel = require("../Models/usercontactModel");
-const userContactData = async (req, res) => {
+const careerImageModel = require("../Models/careerImageModel");
+const multer = require("multer");
+const upload = multer();
+const careerImageData = async (req, res) => {
   try {
-    const { _id, id, Heading, Description, Photos, Published } = req.body;
+    const { _id, id, Photos, Published } = req.body;
 
     if (!Photos) {
       throw new Error("No image data provided");
     }
 
+    // Setting the upsert option to true will create a new document if one doesn't exist.
     const options = { upsert: true, new: true, setDefaultsOnInsert: true };
 
     let query = {};
@@ -18,15 +21,13 @@ const userContactData = async (req, res) => {
     // The update object is what you want to save or update in the document
     const update = {
       id,
-      Heading,
-      Description,
       Photos,
       Published,
     };
 
     // Find a document with the provided _id (if it exists) and update it with the new values.
     // If a document with the provided _id does not exist or no _id is provided, create a new document.
-    const updatedData = await userContactModel.findOneAndUpdate(
+    const updatedData = await careerImageModel.findOneAndUpdate(
       query,
       update,
       options
@@ -44,15 +45,15 @@ const userContactData = async (req, res) => {
   }
 };
 
-const getuserContactData = async (req, res) => {
+const getcareerImageData = async (req, res) => {
   try {
-    const userContactData = await userContactModel.findOne({
+    const careerImageData = await careerImageModel.findOne({
       isDeleted: false,
     });
     res.status(200).send({
       status: true,
-      msg: "userContactData retrieved succesfully",
-      data: userContactData,
+      msg: "careerImageData retrieved succesfully",
+      data: careerImageData,
     });
   } catch (err) {
     return res
@@ -61,30 +62,33 @@ const getuserContactData = async (req, res) => {
   }
 };
 
-const getuserContactById = async (req, res) => {
-  const userContactId = req.params.userContactId;
-  const userContactData = await userContactModel.findOne({
-    userContactId: userContactId,
+const getcareerImageById = async (req, res) => {
+  const careerImageId = req.params.careerImageId;
+  const careerImageData = await careerImageModel.findOne({
+    careerImageId: careerImageId,
     isDeleted: false,
   });
-  return res.status(200).send({
-    status: true,
-    msg: "Data fetch succesfully",
-    data: userContactData,
-  });
+  return res
+    .status(200)
+    .send({
+      status: true,
+      msg: "Data fetch succesfully",
+      data: careerImageData,
+    });
 };
 
-const updateuserContactData = async (req, res) => {
+const updatecareerImageData = async (req, res) => {
   try {
     let data = req.body;
     const { Published } = data;
-    let userContactId = req.params.userContactId;
-    const existingUnit = await userContactModel.findOne({
+    let careerImageId = req.params.careerImageId;
+
+    const existingUnit = await careerImageModel.findOne({
       Published,
-      id: { $ne: userContactId },
+      id: { $ne: careerImageId },
     });
-    let updateBody = await userContactModel.findOneAndUpdate(
-      { id: userContactId },
+    let updateBody = await careerImageModel.findOneAndUpdate(
+      { id: careerImageId },
       {
         $set: {
           Published: Published,
@@ -92,7 +96,6 @@ const updateuserContactData = async (req, res) => {
       },
       { new: true }
     );
-    console.log("up", updateBody);
     return res.status(200).send({
       status: true,
       messege: "Data updated successfully",
@@ -104,10 +107,12 @@ const updateuserContactData = async (req, res) => {
       .send({ status: false, msg: "server error", error: err.message });
   }
 };
-const DeleteuserContactdata = async (req, res) => {
+
+//Delete all data
+const DeletecareerImagedata = async (req, res) => {
   try {
-    const result = await userContactModel.deleteMany({});
-    res.send(`Deleted ${result.deletedCount} userContactdata`);
+    const result = await careerImageModel.deleteMany({});
+    res.send(`Deleted ${result.deletedCount} careerImageData`);
   } catch (error) {
     console.error(error);
     res
@@ -115,19 +120,20 @@ const DeleteuserContactdata = async (req, res) => {
       .send({ status: false, msg: "server error", error: err.message });
   }
 };
-const DeleteuserContactById = async (req, res) => {
-  try {
-    let userContactId = req.params.userContactId;
 
-    const page = await userContactModel.findOne({
-      userContactId: userContactId,
+const DeletecareerImageById = async (req, res) => {
+  try {
+    let careerImageId = req.params.careerImageId;
+
+    const page = await careerImageModel.findOne({
+      careerImageId: careerImageId,
     });
     if (!page) {
       return res.status(400).send({ status: false, message: `page not Found` });
     }
     if (page.isDeleted == false) {
-      await userContactModel.findOneAndUpdate(
-        { userContactId: userContactId },
+      await careerImageModel.findOneAndUpdate(
+        { careerImageId: careerImageId },
         { $set: { isDeleted: true, deletedAt: new Date() } }
       );
 
@@ -145,10 +151,10 @@ const DeleteuserContactById = async (req, res) => {
   }
 };
 module.exports = {
-  userContactData,
-  getuserContactData,
-  getuserContactById,
-  updateuserContactData,
-  DeleteuserContactdata,
-  DeleteuserContactById,
+  careerImageData,
+  getcareerImageData,
+  getcareerImageById,
+  updatecareerImageData,
+  DeletecareerImagedata,
+  DeletecareerImageById,
 };

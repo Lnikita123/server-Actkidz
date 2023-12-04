@@ -1,5 +1,5 @@
-const userContactModel = require("../Models/usercontactModel");
-const userContactData = async (req, res) => {
+const userHomeModel = require("../Models/userHomeModel");
+const userHomeData = async (req, res) => {
   try {
     const { _id, id, Heading, Description, Photos, Published } = req.body;
 
@@ -26,7 +26,7 @@ const userContactData = async (req, res) => {
 
     // Find a document with the provided _id (if it exists) and update it with the new values.
     // If a document with the provided _id does not exist or no _id is provided, create a new document.
-    const updatedData = await userContactModel.findOneAndUpdate(
+    const updatedData = await userHomeModel.findOneAndUpdate(
       query,
       update,
       options
@@ -44,15 +44,13 @@ const userContactData = async (req, res) => {
   }
 };
 
-const getuserContactData = async (req, res) => {
+const getuserHomeData = async (req, res) => {
   try {
-    const userContactData = await userContactModel.findOne({
-      isDeleted: false,
-    });
+    const userHomeData = await userHomeModel.findOne({ isDeleted: false });
     res.status(200).send({
       status: true,
-      msg: "userContactData retrieved succesfully",
-      data: userContactData,
+      msg: "userHomeData retrieved succesfully",
+      data: userHomeData,
     });
   } catch (err) {
     return res
@@ -61,30 +59,28 @@ const getuserContactData = async (req, res) => {
   }
 };
 
-const getuserContactById = async (req, res) => {
-  const userContactId = req.params.userContactId;
-  const userContactData = await userContactModel.findOne({
-    userContactId: userContactId,
+const getuserHomeById = async (req, res) => {
+  const userHomeId = req.params.userHomeId;
+  const userHomeData = await userHomeModel.findOne({
+    userHomeId: userHomeId,
     isDeleted: false,
   });
-  return res.status(200).send({
-    status: true,
-    msg: "Data fetch succesfully",
-    data: userContactData,
-  });
+  return res
+    .status(200)
+    .send({ status: true, msg: "Data fetch succesfully", data: userHomeData });
 };
 
-const updateuserContactData = async (req, res) => {
+const updateuserHomeData = async (req, res) => {
   try {
     let data = req.body;
     const { Published } = data;
-    let userContactId = req.params.userContactId;
-    const existingUnit = await userContactModel.findOne({
+    let userHomeId = req.params.userHomeId;
+    const existingUnit = await userHomeModel.findOne({
       Published,
-      id: { $ne: userContactId },
+      id: { $ne: userHomeId },
     });
-    let updateBody = await userContactModel.findOneAndUpdate(
-      { id: userContactId },
+    let updateBody = await userHomeModel.findOneAndUpdate(
+      { id: userHomeId },
       {
         $set: {
           Published: Published,
@@ -104,10 +100,10 @@ const updateuserContactData = async (req, res) => {
       .send({ status: false, msg: "server error", error: err.message });
   }
 };
-const DeleteuserContactdata = async (req, res) => {
+const DeleteuserHomedata = async (req, res) => {
   try {
-    const result = await userContactModel.deleteMany({});
-    res.send(`Deleted ${result.deletedCount} userContactdata`);
+    const result = await userHomeModel.deleteMany({});
+    res.send(`Deleted ${result.deletedCount} userHomedata`);
   } catch (error) {
     console.error(error);
     res
@@ -115,19 +111,17 @@ const DeleteuserContactdata = async (req, res) => {
       .send({ status: false, msg: "server error", error: err.message });
   }
 };
-const DeleteuserContactById = async (req, res) => {
+const DeleteuserHomeById = async (req, res) => {
   try {
-    let userContactId = req.params.userContactId;
+    let userHomeId = req.params.userHomeId;
 
-    const page = await userContactModel.findOne({
-      userContactId: userContactId,
-    });
+    const page = await userHomeModel.findOne({ userHomeId: userHomeId });
     if (!page) {
       return res.status(400).send({ status: false, message: `page not Found` });
     }
     if (page.isDeleted == false) {
-      await userContactModel.findOneAndUpdate(
-        { userContactId: userContactId },
+      await userHomeModel.findOneAndUpdate(
+        { userHomeId: userHomeId },
         { $set: { isDeleted: true, deletedAt: new Date() } }
       );
 
@@ -145,10 +139,10 @@ const DeleteuserContactById = async (req, res) => {
   }
 };
 module.exports = {
-  userContactData,
-  getuserContactData,
-  getuserContactById,
-  updateuserContactData,
-  DeleteuserContactdata,
-  DeleteuserContactById,
+  userHomeData,
+  getuserHomeData,
+  getuserHomeById,
+  updateuserHomeData,
+  DeleteuserHomedata,
+  DeleteuserHomeById,
 };

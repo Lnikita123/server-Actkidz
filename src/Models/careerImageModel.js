@@ -1,18 +1,12 @@
 const mongoose = require("mongoose");
 
-const homeSchema = new mongoose.Schema(
+const careerImageSchema = new mongoose.Schema(
   {
     id: {
       type: Number,
     },
-    Heading: {
-      type: String,
-    },
-    Description: {
-      type: String,
-    },
-    Photo: {
-      type: String,
+    Photos: {
+      type: [String],
     },
     Published: {
       type: Boolean,
@@ -24,4 +18,4 @@ const homeSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("Home", homeSchema);
+module.exports = mongoose.model("CareerImage", careerImageSchema);

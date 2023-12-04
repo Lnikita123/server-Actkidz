@@ -1,7 +1,7 @@
 const express = require("express");
-const contactModel = require("../Models/contactModel");
-const postContactForm = async (req, res) => {};
-const StudentContacts = async (req, res) => {
+const homecontactModel = require("../Models/homeContactModel");
+
+const Studenthomecontacts = async (req, res) => {
   try {
     const { _id, id, Email, Published } = req.body;
     const options = { upsert: true, new: true, setDefaultsOnInsert: true };
@@ -16,7 +16,7 @@ const StudentContacts = async (req, res) => {
       Published,
     };
 
-    const updatedData = await contactModel.findOneAndUpdate(
+    const updatedData = await homecontactModel.findOneAndUpdate(
       query,
       update,
       options
@@ -33,13 +33,13 @@ const StudentContacts = async (req, res) => {
       .send({ status: false, msg: "Server error", error: err.message });
   }
 };
-const getAllContacts = async (req, res) => {
+const getAllhomecontacts = async (req, res) => {
   try {
-    const contacts = await contactModel.findOne({ isDeleted: false });
+    const homecontacts = await homecontactModel.findOne({ isDeleted: false });
     res.status(200).send({
       status: true,
-      msg: "Contacts retrieved successfully",
-      data: contacts,
+      msg: "homecontacts retrieved successfully",
+      data: homecontacts,
     });
   } catch (error) {
     return res
@@ -48,20 +48,20 @@ const getAllContacts = async (req, res) => {
   }
 };
 
-const getContactById = async (req, res) => {
+const gethomecontactById = async (req, res) => {
   try {
-    const contactId = req.params.contactId;
-    const contact = await contactModel.findById(contactId);
-    if (!contact) {
+    const homecontactId = req.params.homecontactId;
+    const homecontact = await homecontactModel.findById(homecontactId);
+    if (!homecontact) {
       return res.status(404).send({
         status: false,
-        msg: "Contact not found",
+        msg: "homecontact not found",
       });
     }
     res.status(200).send({
       status: true,
-      msg: "Contact retrieved successfully",
-      data: contact,
+      msg: "homecontact retrieved successfully",
+      data: homecontact,
     });
   } catch (error) {
     return res
@@ -70,18 +70,18 @@ const getContactById = async (req, res) => {
   }
 };
 
-const updateContact = async (req, res) => {
+const updatehomecontact = async (req, res) => {
   try {
     let data = req.body;
     const { Published } = data;
-    let contactId = req.params.contactId;
+    let homecontactId = req.params.homecontactId;
 
-    const existingUnit = await contactModel.findOne({
+    const existingUnit = await homecontactModel.findOne({
       Published,
-      id: { $ne: contactId },
+      id: { $ne: homecontactId },
     });
-    let updateBody = await contactModel.findOneAndUpdate(
-      { id: contactId },
+    let updateBody = await homecontactModel.findOneAndUpdate(
+      { id: homecontactId },
       {
         $set: {
           Published: Published,
@@ -101,21 +101,23 @@ const updateContact = async (req, res) => {
   }
 };
 
-const deleteContact = async (req, res) => {
+const deletehomecontact = async (req, res) => {
   try {
-    const contactId = req.params.contactId;
-    const deletedContact = await contactModel.findByIdAndDelete(contactId);
+    const homecontactId = req.params.homecontactId;
+    const deletedhomecontact = await homecontactModel.findByIdAndDelete(
+      homecontactId
+    );
 
-    if (!deletedContact) {
+    if (!deletedhomecontact) {
       return res.status(404).send({
         status: false,
-        msg: "Contact not found",
+        msg: "homecontact not found",
       });
     }
 
     res.status(200).send({
       status: true,
-      msg: "Contact deleted successfully",
+      msg: "homecontact deleted successfully",
     });
   } catch (error) {
     return res
@@ -123,10 +125,10 @@ const deleteContact = async (req, res) => {
       .send({ status: false, msg: "server error", error: err.message });
   }
 };
-const DeleteContactdata = async (req, res) => {
+const Deletehomecontactdata = async (req, res) => {
   try {
-    const result = await contactModel.deleteMany({});
-    res.send(`Deleted ${result.deletedCount} contact`);
+    const result = await homecontactModel.deleteMany({});
+    res.send(`Deleted ${result.deletedCount} homecontact`);
   } catch (error) {
     console.error(error);
     res
@@ -135,10 +137,10 @@ const DeleteContactdata = async (req, res) => {
   }
 };
 module.exports = {
-  StudentContacts,
-  getAllContacts,
-  getContactById,
-  deleteContact,
-  DeleteContactdata,
-  updateContact,
+  Studenthomecontacts,
+  getAllhomecontacts,
+  gethomecontactById,
+  deletehomecontact,
+  Deletehomecontactdata,
+  updatehomecontact,
 };

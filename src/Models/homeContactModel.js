@@ -1,9 +1,16 @@
 const mongoose = require("mongoose");
-const admissionschema = new mongoose.Schema(
+const homecontactSchema = new mongoose.Schema(
   {
+    id: {
+      type: Number,
+    },
     Email: {
       type: String,
       required: true,
+    },
+
+    Published: {
+      type: Boolean,
     },
     isDeleted: {
       type: Boolean,
@@ -12,5 +19,4 @@ const admissionschema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-module.exports = mongoose.model("Admission", admissionschema);
+module.exports = mongoose.model("Homecontact", homecontactSchema);

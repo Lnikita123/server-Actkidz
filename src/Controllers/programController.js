@@ -1,5 +1,5 @@
-const userContactModel = require("../Models/usercontactModel");
-const userContactData = async (req, res) => {
+const programModel = require("../Models/programModel");
+const programData = async (req, res) => {
   try {
     const { _id, id, Heading, Description, Photos, Published } = req.body;
 
@@ -26,7 +26,7 @@ const userContactData = async (req, res) => {
 
     // Find a document with the provided _id (if it exists) and update it with the new values.
     // If a document with the provided _id does not exist or no _id is provided, create a new document.
-    const updatedData = await userContactModel.findOneAndUpdate(
+    const updatedData = await programModel.findOneAndUpdate(
       query,
       update,
       options
@@ -44,15 +44,13 @@ const userContactData = async (req, res) => {
   }
 };
 
-const getuserContactData = async (req, res) => {
+const getprogramData = async (req, res) => {
   try {
-    const userContactData = await userContactModel.findOne({
-      isDeleted: false,
-    });
+    const programData = await programModel.findOne({ isDeleted: false });
     res.status(200).send({
       status: true,
-      msg: "userContactData retrieved succesfully",
-      data: userContactData,
+      msg: "programData retrieved succesfully",
+      data: programData,
     });
   } catch (err) {
     return res
@@ -61,30 +59,28 @@ const getuserContactData = async (req, res) => {
   }
 };
 
-const getuserContactById = async (req, res) => {
-  const userContactId = req.params.userContactId;
-  const userContactData = await userContactModel.findOne({
-    userContactId: userContactId,
+const getprogramById = async (req, res) => {
+  const programId = req.params.programId;
+  const programData = await programModel.findOne({
+    programId: programId,
     isDeleted: false,
   });
-  return res.status(200).send({
-    status: true,
-    msg: "Data fetch succesfully",
-    data: userContactData,
-  });
+  return res
+    .status(200)
+    .send({ status: true, msg: "Data fetch succesfully", data: programData });
 };
 
-const updateuserContactData = async (req, res) => {
+const updateprogramData = async (req, res) => {
   try {
     let data = req.body;
     const { Published } = data;
-    let userContactId = req.params.userContactId;
-    const existingUnit = await userContactModel.findOne({
+    let programId = req.params.programId;
+    const existingUnit = await programModel.findOne({
       Published,
-      id: { $ne: userContactId },
+      id: { $ne: programId },
     });
-    let updateBody = await userContactModel.findOneAndUpdate(
-      { id: userContactId },
+    let updateBody = await programModel.findOneAndUpdate(
+      { id: programId },
       {
         $set: {
           Published: Published,
@@ -104,10 +100,10 @@ const updateuserContactData = async (req, res) => {
       .send({ status: false, msg: "server error", error: err.message });
   }
 };
-const DeleteuserContactdata = async (req, res) => {
+const Deleteprogramdata = async (req, res) => {
   try {
-    const result = await userContactModel.deleteMany({});
-    res.send(`Deleted ${result.deletedCount} userContactdata`);
+    const result = await programModel.deleteMany({});
+    res.send(`Deleted ${result.deletedCount} programdata`);
   } catch (error) {
     console.error(error);
     res
@@ -115,19 +111,17 @@ const DeleteuserContactdata = async (req, res) => {
       .send({ status: false, msg: "server error", error: err.message });
   }
 };
-const DeleteuserContactById = async (req, res) => {
+const DeleteprogramById = async (req, res) => {
   try {
-    let userContactId = req.params.userContactId;
+    let programId = req.params.programId;
 
-    const page = await userContactModel.findOne({
-      userContactId: userContactId,
-    });
+    const page = await programModel.findOne({ programId: programId });
     if (!page) {
       return res.status(400).send({ status: false, message: `page not Found` });
     }
     if (page.isDeleted == false) {
-      await userContactModel.findOneAndUpdate(
-        { userContactId: userContactId },
+      await programModel.findOneAndUpdate(
+        { programId: programId },
         { $set: { isDeleted: true, deletedAt: new Date() } }
       );
 
@@ -145,10 +139,10 @@ const DeleteuserContactById = async (req, res) => {
   }
 };
 module.exports = {
-  userContactData,
-  getuserContactData,
-  getuserContactById,
-  updateuserContactData,
-  DeleteuserContactdata,
-  DeleteuserContactById,
+  programData,
+  getprogramData,
+  getprogramById,
+  updateprogramData,
+  Deleteprogramdata,
+  DeleteprogramById,
 };

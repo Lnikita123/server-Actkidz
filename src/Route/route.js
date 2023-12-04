@@ -13,12 +13,47 @@ const {
   DeleteById,
 } = require("../Controllers/homeController");
 const {
-  feePlaceholder,
-  DeleteByIddata,
-  updatefeeData,
-  getfeeData,
-  DeletefeeData,
-} = require("../Controllers/feePlaceholder");
+  Studenthomecontacts,
+  getAllhomecontacts,
+  gethomecontactById,
+  deletehomecontact,
+  Deletehomecontactdata,
+  updatehomecontact,
+} = require("../Controllers/homecontactController");
+const {
+  programData,
+  getprogramData,
+  getprogramById,
+  updateprogramData,
+  Deleteprogramdata,
+  DeleteprogramById,
+} = require("../Controllers/programController");
+const {
+  galleryData,
+  getgalleryData,
+  getgalleryById,
+  updategalleryData,
+  Deletegallerydata,
+  DeletegalleryById,
+} = require("../Controllers/galleryController");
+
+const {
+  careerData,
+  DeletecareerById,
+  updatecareerData,
+  getcareerData,
+  DeletecareerData,
+} = require("../Controllers/careerController");
+
+const {
+  careerImageData,
+  getcareerImageData,
+  getcareerImageById,
+  updatecareerImageData,
+  DeletecareerImagedata,
+  DeletecareerImageById,
+} = require("../Controllers/careerImageController");
+
 const {
   StudentContacts,
   getAllContacts,
@@ -29,13 +64,13 @@ const {
 } = require("../Controllers/contactController");
 
 const {
-  Studentadmissions,
-  getAlladmissions,
-  getadmissionsById,
-  deleteadmissions,
-  updateadmissions,
-  Deleteadmissiondata,
-} = require("../Controllers/admissionController");
+  contacpageData,
+  getcontacpageData,
+  getcontacpageById,
+  updatecontacpageData,
+  Deletecontacpagedata,
+  DeletecontacpageById,
+} = require("../Controllers/CotactpageController");
 const {
   aboutData,
   getaboutData,
@@ -45,53 +80,26 @@ const {
   DeleteaboutById,
 } = require("../Controllers/aboutController");
 
-const {
-  activityData,
-  getactivityData,
-  getactivityById,
-  updateactivityData,
-  Deleteactivitydata,
-  DeleteactivityById,
-} = require("../Controllers/activityController");
-
-const {
-  pdfData,
-  getpdfData,
-  getpdfById,
-  updatepdfData,
-  Deletepdfdata,
-  DeletepdfById,
-} = require("../Controllers/pdfController");
-
-//user
+//**********************************user*******************************//
 const {
   // createUser,
   // userLogin,
   getusersData,
 } = require("../Controllers/loginController");
-const {
-  userData,
-  getuserData,
-  updateuserData,
-  Deleteuserdata,
-} = require("../Controllers/userController");
 
 const {
-  formPopuData,
-  getformPopuData,
-  updateformPopuData,
-  DeleteformPopudata,
-} = require("../Controllers/formpopupController");
-const {
-  userAdmissionData,
-  getuserAdmissionData,
-  updateuserAdmissionData,
-  DeleteuserAdmissiondata,
-} = require("../Controllers/userAdmission");
+  userHomeData,
+  getuserHomeData,
+  getuserHomeById,
+  updateuserHomeData,
+  DeleteuserHomedata,
+  DeleteuserHomeById,
+} = require("../Controllers/userHomeController");
 
 const {
   userContactData,
   getuserContactData,
+
   updateuserContactData,
   DeleteuserContactdata,
 } = require("../Controllers/usercontactController");
@@ -102,12 +110,78 @@ router.get("/getById/:homeId", getById);
 router.put("/updateData/:homeId", upload.single("Photo"), updateData);
 router.delete("/deleteData", Deletedata);
 router.delete("/deleteId/:homeId", DeleteById);
-// fee placeholder
-router.post("/createFeePlaceholder", feePlaceholder);
-router.get("/getfeeData", getfeeData);
-router.put("/updatefeeData/:feeId", updatefeeData);
-router.delete("/deleteId/:feeId", DeleteByIddata);
-router.delete("/DeletefeeData", DeletefeeData);
+
+//HomeContact
+router.post("/createemailData", upload.single("Photo"), Studenthomecontacts);
+router.get("/getemailData", getAllhomecontacts);
+router.get("/getemailById/:homecontactId", gethomecontactById);
+router.put(
+  "/updateemailData/:homecontactId",
+  upload.single("Photo"),
+  updatehomecontact
+);
+router.delete("/deleteemailData", Deletehomecontactdata);
+router.delete("/deleteemailId/:homecontactId", deletehomecontact);
+
+//program
+router.post("/createprogramData", upload.single("Photo"), programData);
+router.get("/getprogramData", getprogramData);
+router.get("/getprogramById/:programId", getprogramById);
+router.put(
+  "/updateprogramData/:programId",
+  upload.single("Photo"),
+  updateprogramData
+);
+router.delete("/deleteprogramData", Deleteprogramdata);
+router.delete("/deleteprogramId/:programId", DeleteprogramById);
+
+//Gallery
+router.post("/creategalleryData", upload.single("Photo"), galleryData);
+router.get("/getgalleryData", getgalleryData);
+router.get("/getgalleryById/:galleryId", getgalleryById);
+router.put(
+  "/updategalleryData/:galleryId",
+  upload.single("Photo"),
+  updategalleryData
+);
+router.delete("/deletegalleryData", Deletegallerydata);
+router.delete("/deletegalleryId/:galleryId", DeletegalleryById);
+
+//Career
+router.post("/careerData", upload.single("Photo"), careerData);
+router.get("/getcareerData", getcareerData);
+// router.get("/getgalleryById/:careerId", getcareerById);
+router.put(
+  "/updategalleryData/:careerId",
+  upload.single("Photo"),
+  updatecareerData
+);
+router.delete("/deletecareerData", DeletecareerData);
+router.delete("/deletecareerId/:careerId", DeletecareerById);
+
+//careerImage
+
+router.post("/careerImageData", upload.single("Photo"), careerImageData);
+router.get("/getcareerImageData", getcareerImageData);
+router.get("/getcareerImageById/:careerImageId", getcareerImageById);
+router.put(
+  "/updatecareerImageData/:careerImageId",
+  upload.single("Photo"),
+  updatecareerImageData
+);
+router.delete("/DeletecareerImagedata", DeletecareerImagedata);
+router.delete("/DeletecareerImageById/:careerImageId", DeletecareerImageById);
+//contactPage
+router.post("/contacpageData", upload.single("Photo"), contacpageData);
+router.get("/getcontacpageData", getcontacpageData);
+router.get("/getcontacpageById/:contacpageId", getcontacpageById);
+router.put(
+  "/updatecontacpageData/:contacpageId",
+  upload.single("Photo"),
+  updatecontacpageData
+);
+router.delete("/Deletecontacpagedata", Deletecontacpagedata);
+router.delete("/DeletecontacpageById/:contacpageId", DeletecontacpageById);
 //contact//
 router.post("/contactData", StudentContacts);
 router.get("/getcontactData", getAllContacts);
@@ -116,17 +190,6 @@ router.put("/updateContactData/:contactId", updateContact);
 router.delete("/deletecontactData", deleteContact);
 router.delete("/DeleteContactdat", DeleteContactdata);
 
-//Admission//
-router.post("/Studentadmissions", Studentadmissions);
-router.get("/getAlladmissions", getAlladmissions);
-router.get(
-  "/getadmissionsById/:admissionId",
-
-  getadmissionsById
-);
-router.put("/updateadmissions/:admissionId", updateadmissions);
-router.delete("/deleteadmissions", deleteadmissions);
-router.delete("/Deleteadmissiondata", Deleteadmissiondata);
 //About//
 router.post("/createaboutData", upload.single("Photo"), aboutData);
 router.get("/getaboutData", getaboutData);
@@ -139,67 +202,24 @@ router.put(
 router.delete("/deleteaboutData", Deleteaboutdata);
 router.delete("/deleteaboutId/:aboutId", DeleteaboutById);
 
-//Activity//
-router.post(
-  "/createactivityData",
-  upload.fields([{ name: "Photo" }]),
-  activityData
-);
-router.get("/getactivityData", getactivityData);
-router.get(
-  "/getactivityById/:activityId",
-
-  getactivityById
-);
-router.put(
-  "/updateActivityData/:activityId",
-  upload.fields([{ name: "Photo" }, { name: "Pdf" }]),
-  updateactivityData
-);
-router.delete("/deleteactivityData", Deleteactivitydata);
-router.delete("/deleteactivityId/:activityId", DeleteactivityById);
-
-//pdf
-router.post("/pdfData", upload.single("Photo"), pdfData);
-router.get("/getpdfData", getpdfData);
-router.get("/getpdfById/:pdfId", getpdfById);
-router.put("/updatepdfData/:pdfId", upload.single("Photo"), updatepdfData);
-router.delete("/Deletepdfdata", Deletepdfdata);
-router.delete("/DeletepdfById/:pdfId", DeletepdfById);
-
 //***********  User *************//
 
-router.post("/userData", userData);
-router.get("/getuserData", getuserData);
-router.put("/updateuserData/:userId", updateuserData);
-router.delete("/Deleteuserdata", Deleteuserdata);
-
-//UserAdmission
-router.post("/userAdmissionData", userAdmissionData);
-router.get(
-  "/getuserAdmissionData",
-
-  getuserAdmissionData
-);
-router.put(
-  "/updateuserAdmissionData/:userAdmissionId",
-  updateuserAdmissionData
-);
-router.delete("/DeleteuserAdmissiondata", DeleteuserAdmissiondata);
-
-//UserContact
-router.post("/userContactData", userContactData);
-router.get("/getuserContactData", getuserContactData);
-router.put("/updateuserContactData/:userContactId", updateuserContactData);
-router.delete("/DeleteuserContactdata", DeleteuserContactdata);
-
-//FormPopup//
-router.post("/formPopupData", formPopuData);
-router.get("/getformPopupData", getformPopuData);
-router.put("/updateformPopupData/:formId", updateformPopuData);
-router.delete("/DeleteformPopupdata", DeleteformPopudata);
 //user Login
 // router.post("/createUser", createUser);
 // router.post("/userLogin", userLogin);
 router.get("/getusersData", getusersData);
+//userHome
+router.post("/userHomeData", userHomeData);
+router.get("/getuserHomeData", getuserHomeData);
+router.get("/getuserHomeById/:contactId", getuserHomeById);
+router.put("/updateuserHomeData/:contactId", updateuserHomeData);
+router.delete("/DeleteuserHomedata", DeleteuserHomedata);
+router.delete("/DeleteuserHomeById", DeleteuserHomeById);
+//UserEmailData
+
+router.post("/userContactData", userContactData);
+router.get("/getuserContactData", getuserContactData);
+router.put("/updateuserContactData/:contactId", updateuserContactData);
+router.delete("/DeleteuserContactdata", DeleteuserContactdata);
+
 module.exports = router;

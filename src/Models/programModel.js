@@ -1,18 +1,21 @@
 const mongoose = require("mongoose");
-const activityschema = new mongoose.Schema(
+
+const programSchema = new mongoose.Schema(
   {
     id: {
       type: Number,
-      unique: false,
     },
     Heading: {
+      type: String,
+    },
+    Age: {
       type: String,
     },
     Description: {
       type: String,
     },
-    Photo: {
-      type: String,
+    Photos: {
+      type: [String],
     },
     Published: {
       type: Boolean,
@@ -24,5 +27,4 @@ const activityschema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-module.exports = mongoose.model("Activity", activityschema);
+module.exports = mongoose.model("Program", programSchema);

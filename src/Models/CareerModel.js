@@ -1,14 +1,17 @@
 const mongoose = require("mongoose");
-const contactSchema = new mongoose.Schema(
+
+const careerSchema = new mongoose.Schema(
   {
     id: {
       type: Number,
+      unique: false,
     },
-    Email: {
+    Photos: {
       type: String,
-      required: true,
     },
-
+    Link: {
+      type: String,
+    },
     Published: {
       type: Boolean,
     },
@@ -19,4 +22,5 @@ const contactSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("Contact", contactSchema);
+
+module.exports = mongoose.model("Career", careerSchema);

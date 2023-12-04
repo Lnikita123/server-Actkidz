@@ -1,15 +1,15 @@
-const activityModel = require("../Models/activityModel");
+const contacpageModel = require("../Models/contactpageModel");
 const multer = require("multer");
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
-const activityData = async (req, res) => {
+const contacpageData = async (req, res) => {
   try {
-    const { id, Heading, Description, Photo, Published } = req.body;
+    const { id, Address, Photo, Published } = req.body;
 
     // findOneAndUpdate parameters: query, update, options
-    const newData = await activityModel.findOneAndUpdate(
+    const newData = await contacpageModel.findOneAndUpdate(
       { id }, // Query to find the document
-      { id, Heading, Description, Photo, Published }, // The data to be updated or inserted
+      { id, Address, Photo, Published }, // The data to be updated or inserted
       {
         new: true, // Return the modified document rather than the original
         upsert: true, // Create a new document if no document matches the query
@@ -28,13 +28,13 @@ const activityData = async (req, res) => {
   }
 };
 
-const getactivityData = async (req, res) => {
+const getcontacpageData = async (req, res) => {
   try {
-    const activityData = await activityModel.find({ isDeleted: false });
+    const contacpageData = await contacpageModel.find({ isDeleted: false });
     res.status(200).send({
       status: true,
-      msg: "activityData retrieved succesfully",
-      data: activityData,
+      msg: "contacpageData retrieved succesfully",
+      data: contacpageData,
     });
   } catch (err) {
     return res
@@ -43,27 +43,29 @@ const getactivityData = async (req, res) => {
   }
 };
 
-const getactivityById = async (req, res) => {
-  const activityId = req.params.activityId;
-  const activityData = await activityModel.findOne({
-    activityId: activityId,
+const getcontacpageById = async (req, res) => {
+  const contacpageId = req.params.contacpageId;
+  const contacpageData = await contacpageModel.findOne({
+    contacpageId: contacpageId,
     isDeleted: false,
   });
-  return res
-    .status(200)
-    .send({ status: true, msg: "Data fetch succesfully", data: activityData });
+  return res.status(200).send({
+    status: true,
+    msg: "Data fetch succesfully",
+    data: contacpageData,
+  });
 };
 
-const updateactivityData = async (req, res) => {
+const updatecontacpageData = async (req, res) => {
   try {
     const { Published } = req.body;
-    let id = req.params.activityId;
-    const existingUnit = await activityModel.findOne({
+    let contacpageId = req.params.contacpageId;
+    const existingUnit = await contacpageModel.findOne({
       Published,
-      id: { $ne: id },
+      id: { $ne: contacpageId },
     });
-    let updateBody = await activityModel.findOneAndUpdate(
-      { id: id },
+    let updateBody = await contacpageModel.findOneAndUpdate(
+      { id: contacpageId },
       {
         $set: {
           Published: Published,
@@ -83,10 +85,10 @@ const updateactivityData = async (req, res) => {
   }
 };
 
-const Deleteactivitydata = async (req, res) => {
+const Deletecontacpagedata = async (req, res) => {
   try {
-    const result = await activityModel.deleteMany({});
-    res.send(`Deleted ${result.deletedCount} activitydata`);
+    const result = await contacpageModel.deleteMany({});
+    res.send(`Deleted ${result.deletedCount} contacpagedata`);
   } catch (error) {
     console.error(error);
     res
@@ -94,17 +96,17 @@ const Deleteactivitydata = async (req, res) => {
       .send({ status: false, msg: "server error", error: err.message });
   }
 };
-const DeleteactivityById = async (req, res) => {
+const DeletecontacpageById = async (req, res) => {
   try {
-    let activityId = req.params.activityId;
+    let contacpageId = req.params.contacpageId;
 
-    const page = await activityModel.findOne({ activityId: activityId });
+    const page = await contacpageModel.findOne({ contacpageId: contacpageId });
     if (!page) {
       return res.status(400).send({ status: false, message: `page not Found` });
     }
     if (page.isDeleted == false) {
-      await activityModel.findOneAndUpdate(
-        { activityId: activityId },
+      await contacpageModel.findOneAndUpdate(
+        { contacpageId: contacpageId },
         { $set: { isDeleted: true, deletedAt: new Date() } }
       );
 
@@ -122,10 +124,10 @@ const DeleteactivityById = async (req, res) => {
   }
 };
 module.exports = {
-  activityData,
-  getactivityData,
-  getactivityById,
-  updateactivityData,
-  Deleteactivitydata,
-  DeleteactivityById,
+  contacpageData,
+  getcontacpageData,
+  getcontacpageById,
+  updatecontacpageData,
+  Deletecontacpagedata,
+  DeletecontacpageById,
 };

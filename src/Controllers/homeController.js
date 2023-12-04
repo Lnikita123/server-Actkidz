@@ -1,9 +1,9 @@
-const homeModel = require("../Models/homeModel");
+const homeModel = require("../Models/homeModal");
 const homeData = async (req, res) => {
   try {
-    const { _id, id, Heading, Description, Photo, Published } = req.body;
+    const { _id, id, Photos, Published } = req.body;
 
-    if (!Photo) {
+    if (!Photos) {
       throw new Error("No image data provided");
     }
 
@@ -18,9 +18,8 @@ const homeData = async (req, res) => {
     // The update object is what you want to save or update in the document
     const update = {
       id,
-      Heading,
-      Description,
-      Photo,
+
+      Photos,
       Published,
     };
 

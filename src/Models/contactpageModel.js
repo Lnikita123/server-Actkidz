@@ -1,14 +1,17 @@
 const mongoose = require("mongoose");
-const contactSchema = new mongoose.Schema(
+const contacpageschema = new mongoose.Schema(
   {
     id: {
       type: Number,
+      unique: false,
     },
-    Email: {
+    Address: {
       type: String,
-      required: true,
     },
 
+    Photo: {
+      type: String,
+    },
     Published: {
       type: Boolean,
     },
@@ -19,4 +22,5 @@ const contactSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("Contact", contactSchema);
+
+module.exports = mongoose.model("Contacpage", contacpageschema);

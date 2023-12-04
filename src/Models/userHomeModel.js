@@ -1,15 +1,17 @@
 const mongoose = require("mongoose");
 
-const feeSchema = new mongoose.Schema(
+const userHomeSchema = new mongoose.Schema(
   {
     id: {
       type: Number,
-      unique: false,
     },
-    Description: {
+    Name: {
       type: String,
     },
-    Link: {
+    Phone: {
+      type: String,
+    },
+    Query: {
       type: String,
     },
     Published: {
@@ -22,5 +24,4 @@ const feeSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-module.exports = mongoose.model("fee", feeSchema);
+module.exports = mongoose.model("UserHome", userHomeSchema);

@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 
 const userContactSchema = new mongoose.Schema(
   {
+    id: {
+      type: Number,
+    },
     Name: {
       type: String,
     },
@@ -11,14 +14,8 @@ const userContactSchema = new mongoose.Schema(
     Email: {
       type: String,
     },
-    Message: {
-      type: String,
-    },
-    campus: {
-      type: String,
-    },
-    Requirement: {
-      type: String,
+    Published: {
+      type: Boolean,
     },
     isDeleted: {
       type: Boolean,
