@@ -12,6 +12,9 @@ const careerSchema = new mongoose.Schema(
     Link: {
       type: String,
     },
+    Heading: {
+      type: String,
+    },
     Published: {
       type: Boolean,
     },

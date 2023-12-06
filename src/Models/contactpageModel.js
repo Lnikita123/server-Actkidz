@@ -8,12 +8,12 @@ const contacpageschema = new mongoose.Schema(
     Address: {
       type: String,
     },
-
     Photo: {
       type: String,
     },
     Published: {
       type: Boolean,
+      default: false,
     },
     isDeleted: {
       type: Boolean,

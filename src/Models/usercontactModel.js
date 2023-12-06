@@ -8,7 +8,7 @@ const userContactSchema = new mongoose.Schema(
     Name: {
       type: String,
     },
-    Phone: {
+    Mobile: {
       type: String,
     },
     Email: {

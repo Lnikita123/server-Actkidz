@@ -5,10 +5,6 @@ const careerImageData = async (req, res) => {
   try {
     const { _id, id, Photos, Published } = req.body;
 
-    if (!Photos) {
-      throw new Error("No image data provided");
-    }
-
     // Setting the upsert option to true will create a new document if one doesn't exist.
     const options = { upsert: true, new: true, setDefaultsOnInsert: true };
 
@@ -68,13 +64,11 @@ const getcareerImageById = async (req, res) => {
     careerImageId: careerImageId,
     isDeleted: false,
   });
-  return res
-    .status(200)
-    .send({
-      status: true,
-      msg: "Data fetch succesfully",
-      data: careerImageData,
-    });
+  return res.status(200).send({
+    status: true,
+    msg: "Data fetch succesfully",
+    data: careerImageData,
+  });
 };
 
 const updatecareerImageData = async (req, res) => {

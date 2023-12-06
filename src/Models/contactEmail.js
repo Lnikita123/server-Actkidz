@@ -1,21 +1,16 @@
 const mongoose = require("mongoose");
-
-const userHomeSchema = new mongoose.Schema(
+const contactEmailSchema = new mongoose.Schema(
   {
     id: {
       type: Number,
     },
-    Name: {
+    Email: {
       type: String,
-    },
-    Mobile: {
-      type: String,
-    },
-    Query: {
-      type: String,
+      required: true,
     },
     Published: {
       type: Boolean,
+      default: false,
     },
     isDeleted: {
       type: Boolean,
@@ -24,4 +19,4 @@ const userHomeSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("UserHome", userHomeSchema);
+module.exports = mongoose.model("ContactEmail", contactEmailSchema);

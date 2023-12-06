@@ -88,23 +88,35 @@ const {
 } = require("../Controllers/loginController");
 
 const {
-  userHomeData,
-  getuserHomeData,
-  getuserHomeById,
-  updateuserHomeData,
-  DeleteuserHomedata,
-  DeleteuserHomeById,
+  userHomeHomeData,
+  getuserHomeHomeData,
+  updateuserHomeHomeData,
+  DeleteuserHomeHomedata,
 } = require("../Controllers/userHomeController");
 
 const {
   userContactData,
   getuserContactData,
-
   updateuserContactData,
   DeleteuserContactdata,
 } = require("../Controllers/usercontactController");
+const {
+  StudentcontactEmails,
+  getAllcontactEmails,
+  getcontactEmailById,
+  deletecontactEmail,
+  DeletecontactEmaildata,
+  updatecontactEmail,
+} = require("../Controllers/contactEmailController");
+//contactEmail//
+router.post("/contactEmailData", StudentcontactEmails);
+router.get("/getcontactEmailData", getAllcontactEmails);
+router.get("/getcontactEmailById/:contactEmailId", getcontactEmailById);
+router.put("/updateContactEmailData/:contactEmailId", updatecontactEmail);
+router.delete("/deletecontactEmailData", deletecontactEmail);
+router.delete("/DeleteContactEmaildat", DeletecontactEmaildata);
 //Home//
-router.post("/createData", upload.single("Photo"), homeData);
+router.post("/createData", homeData);
 router.get("/getData", getData);
 router.get("/getById/:homeId", getById);
 router.put("/updateData/:homeId", upload.single("Photo"), updateData);
@@ -124,7 +136,7 @@ router.delete("/deleteemailData", Deletehomecontactdata);
 router.delete("/deleteemailId/:homecontactId", deletehomecontact);
 
 //program
-router.post("/createprogramData", upload.single("Photo"), programData);
+router.post("/createprogramData", programData);
 router.get("/getprogramData", getprogramData);
 router.get("/getprogramById/:programId", getprogramById);
 router.put(
@@ -152,7 +164,7 @@ router.post("/careerData", upload.single("Photo"), careerData);
 router.get("/getcareerData", getcareerData);
 // router.get("/getgalleryById/:careerId", getcareerById);
 router.put(
-  "/updategalleryData/:careerId",
+  "/updateCareerData/:careerId",
   upload.single("Photo"),
   updatecareerData
 );
@@ -161,7 +173,7 @@ router.delete("/deletecareerId/:careerId", DeletecareerById);
 
 //careerImage
 
-router.post("/careerImageData", upload.single("Photo"), careerImageData);
+router.post("/careerImageData", careerImageData);
 router.get("/getcareerImageData", getcareerImageData);
 router.get("/getcareerImageById/:careerImageId", getcareerImageById);
 router.put(
@@ -172,16 +184,16 @@ router.put(
 router.delete("/DeletecareerImagedata", DeletecareerImagedata);
 router.delete("/DeletecareerImageById/:careerImageId", DeletecareerImageById);
 //contactPage
-router.post("/contacpageData", upload.single("Photo"), contacpageData);
-router.get("/getcontacpageData", getcontacpageData);
-router.get("/getcontacpageById/:contacpageId", getcontacpageById);
+router.post("/contactpageData", upload.single("Photo"), contacpageData);
+router.get("/getcontactpageData", getcontacpageData);
+router.get("/getcontactpageById/:contactpageId", getcontacpageById);
 router.put(
-  "/updatecontacpageData/:contacpageId",
+  "/updatecontactpageData/:contactpageId",
   upload.single("Photo"),
   updatecontacpageData
 );
-router.delete("/Deletecontacpagedata", Deletecontacpagedata);
-router.delete("/DeletecontacpageById/:contacpageId", DeletecontacpageById);
+router.delete("/Deletecontactpagedata", Deletecontacpagedata);
+router.delete("/DeletecontactpageById/:contactpageId", DeletecontacpageById);
 //contact//
 router.post("/contactData", StudentContacts);
 router.get("/getcontactData", getAllContacts);
@@ -209,12 +221,11 @@ router.delete("/deleteaboutId/:aboutId", DeleteaboutById);
 // router.post("/userLogin", userLogin);
 router.get("/getusersData", getusersData);
 //userHome
-router.post("/userHomeData", userHomeData);
-router.get("/getuserHomeData", getuserHomeData);
-router.get("/getuserHomeById/:contactId", getuserHomeById);
-router.put("/updateuserHomeData/:contactId", updateuserHomeData);
-router.delete("/DeleteuserHomedata", DeleteuserHomedata);
-router.delete("/DeleteuserHomeById", DeleteuserHomeById);
+router.post("/userHomeData", userHomeHomeData);
+router.get("/getuserHomeData", getuserHomeHomeData);
+router.put("/updateuserHomeData/:userHomeId", updateuserHomeHomeData);
+router.delete("/DeleteuserHomedata", DeleteuserHomeHomedata);
+
 //UserEmailData
 
 router.post("/userContactData", userContactData);

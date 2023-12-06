@@ -6,10 +6,16 @@ const homeSchema = new mongoose.Schema(
       type: Number,
     },
     Photos: {
-      type: [String],
+      type: [
+        {
+          id: String,
+          image: String,
+        },
+      ],
     },
     Published: {
       type: Boolean,
+      default: false,
     },
     isDeleted: {
       type: Boolean,

@@ -30,7 +30,7 @@ const contacpageData = async (req, res) => {
 
 const getcontacpageData = async (req, res) => {
   try {
-    const contacpageData = await contacpageModel.find({ isDeleted: false });
+    const contacpageData = await contacpageModel.findOne();
     res.status(200).send({
       status: true,
       msg: "contacpageData retrieved succesfully",
@@ -44,9 +44,9 @@ const getcontacpageData = async (req, res) => {
 };
 
 const getcontacpageById = async (req, res) => {
-  const contacpageId = req.params.contacpageId;
+  const contactpageId = req.params.contactpageId;
   const contacpageData = await contacpageModel.findOne({
-    contacpageId: contacpageId,
+    contactpageId: contactpageId,
     isDeleted: false,
   });
   return res.status(200).send({
@@ -59,13 +59,13 @@ const getcontacpageById = async (req, res) => {
 const updatecontacpageData = async (req, res) => {
   try {
     const { Published } = req.body;
-    let contacpageId = req.params.contacpageId;
-    const existingUnit = await contacpageModel.findOne({
+    let contactpageId = req.params.contactpageId;
+    await contacpageModel.findOne({
       Published,
-      id: { $ne: contacpageId },
+      id: { $ne: contactpageId },
     });
     let updateBody = await contacpageModel.findOneAndUpdate(
-      { id: contacpageId },
+      { id: contactpageId },
       {
         $set: {
           Published: Published,
@@ -98,15 +98,17 @@ const Deletecontacpagedata = async (req, res) => {
 };
 const DeletecontacpageById = async (req, res) => {
   try {
-    let contacpageId = req.params.contacpageId;
+    let contactpageId = req.params.contactpageId;
 
-    const page = await contacpageModel.findOne({ contacpageId: contacpageId });
+    const page = await contacpageModel.findOne({
+      contactpageId: contactpageId,
+    });
     if (!page) {
       return res.status(400).send({ status: false, message: `page not Found` });
     }
     if (page.isDeleted == false) {
       await contacpageModel.findOneAndUpdate(
-        { contacpageId: contacpageId },
+        { contactpageId: contactpageId },
         { $set: { isDeleted: true, deletedAt: new Date() } }
       );
 

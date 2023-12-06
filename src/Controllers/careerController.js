@@ -1,23 +1,37 @@
 const careerModal = require("../Models/CareerModel");
-
 const careerData = async (req, res) => {
   try {
-    const { id, Photos, Link, Published } = req.body;
+    const { _id, id, Photos, Link, Heading, Published } = req.body;
+    // Setting the upsert option to true will create a new document if one doesn't exist.
+    const options = { upsert: true, new: true, setDefaultsOnInsert: true };
 
-    // findOneAndUpdate parameters: query, update, options
-    const newData = await careerModal.findOneAndUpdate(
-      { id }, // Query to find the document
-      { id, Photos, Link, Published }, // The data to be updated or inserted
-      {
-        new: true, // Return the modified document rather than the original
-        upsert: true, // Create a new document if no document matches the query
-      }
+    let query = {};
+    if (_id) {
+      // Use the provided _id in the query if it exists
+      query._id = _id;
+    }
+
+    // The update object is what you want to save or update in the document
+    const update = {
+      id,
+      Photos,
+      Link,
+      Heading,
+      Published,
+    };
+
+    // Find a document with the provided _id (if it exists) and update it with the new values.
+    // If a document with the provided _id does not exist or no _id is provided, create a new document.
+    const updatedData = await careerModal.findOneAndUpdate(
+      query,
+      update,
+      options
     );
 
-    return res.status(201).send({
+    return res.status(200).send({
       status: true,
       msg: "Data created or updated successfully",
-      data: newData,
+      data: updatedData,
     });
   } catch (err) {
     return res
@@ -28,7 +42,7 @@ const careerData = async (req, res) => {
 
 const getcareerData = async (req, res) => {
   try {
-    const careerData = await careerModal.find();
+    const careerData = await careerModal.findOne();
     res.status(200).send({
       status: true,
       msg: "careerData retrieved succesfully",

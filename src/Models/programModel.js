@@ -14,8 +14,11 @@ const programSchema = new mongoose.Schema(
     Description: {
       type: String,
     },
-    Photos: {
-      type: [String],
+    Image1: {
+      type: String,
+    },
+    Image2: {
+      type: String,
     },
     Published: {
       type: Boolean,

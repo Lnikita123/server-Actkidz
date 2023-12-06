@@ -8,9 +8,9 @@ const contactSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
     Published: {
       type: Boolean,
+      default: false,
     },
     isDeleted: {
       type: Boolean,

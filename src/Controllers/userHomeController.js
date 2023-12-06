@@ -1,31 +1,57 @@
+const contactModel = require("../Models/contactModel");
 const userHomeModel = require("../Models/userHomeModel");
-const userHomeData = async (req, res) => {
+const nodemailer = require("nodemailer");
+const userHomeHomeData = async (req, res) => {
   try {
-    const { _id, id, Heading, Description, Photos, Published } = req.body;
-
-    if (!Photos) {
-      throw new Error("No image data provided");
-    }
-
+    const { _id, Name, Mobile, Query } = req.body;
+    console.log(req.body);
+    const admissions = await contactModel.findOne({ isDeleted: false });
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "nikitalilhore123@gmail.com",
+        pass: "dzjfxzvmwndjwmme",
+      },
+    });
+    const mailOptions = {
+      from: "nikitalilhore123@gmail.com",
+      to: `${admissions?.Email}`,
+      subject: "New Teachers Details Submission",
+      text: `
+        Name: ${Name}
+        Mobile: ${Mobile}
+        Query: ${Query}
+          
+        `,
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+        res.status(500).send({
+          status: false,
+          msg: "Email not sent!",
+        });
+      } else {
+        console.log("Email sent: " + info.response);
+        res.status(201).send({
+          status: true,
+          msg: "Data created and email sent successfully",
+          data: contact,
+        });
+      }
+    });
     const options = { upsert: true, new: true, setDefaultsOnInsert: true };
 
     let query = {};
     if (_id) {
-      // Use the provided _id in the query if it exists
       query._id = _id;
     }
 
-    // The update object is what you want to save or update in the document
     const update = {
-      id,
-      Heading,
-      Description,
-      Photos,
-      Published,
+      Name,
+      Mobile,
+      Query,
     };
-
-    // Find a document with the provided _id (if it exists) and update it with the new values.
-    // If a document with the provided _id does not exist or no _id is provided, create a new document.
     const updatedData = await userHomeModel.findOneAndUpdate(
       query,
       update,
@@ -44,7 +70,7 @@ const userHomeData = async (req, res) => {
   }
 };
 
-const getuserHomeData = async (req, res) => {
+const getuserHomeHomeData = async (req, res) => {
   try {
     const userHomeData = await userHomeModel.findOne({ isDeleted: false });
     res.status(200).send({
@@ -59,40 +85,23 @@ const getuserHomeData = async (req, res) => {
   }
 };
 
-const getuserHomeById = async (req, res) => {
-  const userHomeId = req.params.userHomeId;
-  const userHomeData = await userHomeModel.findOne({
-    userHomeId: userHomeId,
-    isDeleted: false,
-  });
-  return res
-    .status(200)
-    .send({ status: true, msg: "Data fetch succesfully", data: userHomeData });
-};
-
-const updateuserHomeData = async (req, res) => {
+const updateuserHomeHomeData = async (req, res) => {
   try {
-    let data = req.body;
-    const { Published } = data;
-    let userHomeId = req.params.userHomeId;
-    const existingUnit = await userHomeModel.findOne({
-      Published,
-      id: { $ne: userHomeId },
-    });
-    let updateBody = await userHomeModel.findOneAndUpdate(
-      { id: userHomeId },
-      {
-        $set: {
-          Published: Published,
-        },
-      },
+    const { Name, Mobile, Query } = req.body;
+    const userHomeId = req.params.userHomeId;
+
+    const UpdateuserHome = await userHomeModel.findByIdAndUpdate(
+      userHomeId,
+      { $set: { Name, Mobile, Query } },
       { new: true }
     );
-    console.log("up", updateBody);
+
+    // console.log("Update result:", UpdateuserHome);
+
     return res.status(200).send({
       status: true,
-      messege: "Data updated successfully",
-      data: updateBody,
+      msg: "Data updated successfully",
+      data: UpdateuserHome,
     });
   } catch (err) {
     return res
@@ -100,7 +109,8 @@ const updateuserHomeData = async (req, res) => {
       .send({ status: false, msg: "server error", error: err.message });
   }
 };
-const DeleteuserHomedata = async (req, res) => {
+
+const DeleteuserHomeHomedata = async (req, res) => {
   try {
     const result = await userHomeModel.deleteMany({});
     res.send(`Deleted ${result.deletedCount} userHomedata`);
@@ -111,38 +121,10 @@ const DeleteuserHomedata = async (req, res) => {
       .send({ status: false, msg: "server error", error: err.message });
   }
 };
-const DeleteuserHomeById = async (req, res) => {
-  try {
-    let userHomeId = req.params.userHomeId;
 
-    const page = await userHomeModel.findOne({ userHomeId: userHomeId });
-    if (!page) {
-      return res.status(400).send({ status: false, message: `page not Found` });
-    }
-    if (page.isDeleted == false) {
-      await userHomeModel.findOneAndUpdate(
-        { userHomeId: userHomeId },
-        { $set: { isDeleted: true, deletedAt: new Date() } }
-      );
-
-      return res
-        .status(200)
-        .send({ status: true, message: `Data deleted successfully.` });
-    }
-    return res
-      .status(400)
-      .send({ status: true, message: `Data has been already deleted.` });
-  } catch (err) {
-    return res
-      .status(500)
-      .send({ status: false, msg: "server error", error: err.message });
-  }
-};
 module.exports = {
-  userHomeData,
-  getuserHomeData,
-  getuserHomeById,
-  updateuserHomeData,
-  DeleteuserHomedata,
-  DeleteuserHomeById,
+  userHomeHomeData,
+  getuserHomeHomeData,
+  updateuserHomeHomeData,
+  DeleteuserHomeHomedata,
 };

@@ -2,11 +2,6 @@ const homeModel = require("../Models/homeModal");
 const homeData = async (req, res) => {
   try {
     const { _id, id, Photos, Published } = req.body;
-
-    if (!Photos) {
-      throw new Error("No image data provided");
-    }
-
     const options = { upsert: true, new: true, setDefaultsOnInsert: true };
 
     let query = {};
@@ -15,16 +10,13 @@ const homeData = async (req, res) => {
       query._id = _id;
     }
 
-    // The update object is what you want to save or update in the document
     const update = {
       id,
-
-      Photos,
+      Photos, // Directly use the Photos array from req.body
       Published,
     };
 
-    // Find a document with the provided _id (if it exists) and update it with the new values.
-    // If a document with the provided _id does not exist or no _id is provided, create a new document.
+    // Find a document with the provided _id (if it exists) and update it with the new values
     const updatedData = await homeModel.findOneAndUpdate(
       query,
       update,
