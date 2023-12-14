@@ -9,14 +9,14 @@ const userHomeHomeData = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "nikitalilhore123@gmail.com",
-        pass: "dzjfxzvmwndjwmme",
+        user: "info.actkidz@gmail.com",
+        pass: "tbirmfmkunknskdc",
       },
     });
     const mailOptions = {
-      from: "nikitalilhore123@gmail.com",
+      from: "info.actkidz@gmail.com",
       to: `${admissions?.Email}`,
-      subject: "New Teachers Details Submission",
+      subject: "New Website Form Submission for actkidz.com",
       text: `
         Name: ${Name}
         Mobile: ${Mobile}
