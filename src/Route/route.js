@@ -82,8 +82,8 @@ const {
 
 //**********************************user*******************************//
 const {
-  // createUser,
-  // userLogin,
+  createUser,
+  userLogin,
   getusersData,
 } = require("../Controllers/loginController");
 
@@ -173,7 +173,7 @@ router.delete("/deletecareerId/:careerId", DeletecareerById);
 
 //careerImage
 
-router.post("/careerImageData", careerImageData);
+router.post("/careerImageData",upload.single("Photo"), careerImageData);
 router.get("/getcareerImageData", getcareerImageData);
 router.get("/getcareerImageById/:careerImageId", getcareerImageById);
 router.put(
@@ -217,8 +217,8 @@ router.delete("/deleteaboutId/:aboutId", DeleteaboutById);
 //***********  User *************//
 
 //user Login
-// router.post("/createUser", createUser);
-// router.post("/userLogin", userLogin);
+router.post("/createUser", createUser);
+router.post("/LoginuseData", userLogin);
 router.get("/getusersData", getusersData);
 //userHome
 router.post("/userHomeData", userHomeHomeData);

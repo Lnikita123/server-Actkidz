@@ -75,27 +75,30 @@ const DeletecareerById = async (req, res) => {
   try {
     let careerId = req.params.careerId;
 
-    const page = await careerModal.findOne({ careerId: careerId });
-    if (!page) {
-      return res.status(400).send({ status: false, message: `page not Found` });
-    }
-    if (page.isDeleted == false) {
-      await careerModal.findOneAndUpdate(
-        { careerId: careerId },
-        { $set: { isDeleted: true, deletedAt: new Date() } }
-      );
+    // Convert careerId to Number as your id in schema is of type Number
+    careerId = Number(careerId);
 
+    // Check if the document exists and is not deleted
+    const page = await careerModal.findOne({
+      id: careerId,
+      isDeleted: false,
+    });
+    if (!page) {
       return res
-        .status(200)
-        .send({ status: true, message: `Data deleted successfully.` });
+        .status(404)
+        .send({ status: false, message: `Page not found or already deleted` });
     }
+
+    // Perform the hard delete
+    await careerModal.findOneAndDelete({ id: careerId });
+
     return res
-      .status(400)
-      .send({ status: true, message: `Data has been already deleted.` });
+      .status(200)
+      .send({ status: true, message: `Data deleted successfully.` });
   } catch (err) {
     return res
       .status(500)
-      .send({ status: false, msg: "server error", error: err.message });
+      .send({ status: false, msg: "Server error", error: err.message });
   }
 };
 

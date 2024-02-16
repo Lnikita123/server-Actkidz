@@ -69,7 +69,7 @@ const updateprogramData = async (req, res) => {
       },
       { new: true }
     );
-    console.log("up", updateBody);
+    // console.log("up", updateBody);
     return res.status(200).send({
       status: true,
       messege: "Data updated successfully",
@@ -96,27 +96,30 @@ const DeleteprogramById = async (req, res) => {
   try {
     let programId = req.params.programId;
 
-    const page = await programModel.findOne({ programId: programId });
-    if (!page) {
-      return res.status(400).send({ status: false, message: `page not Found` });
-    }
-    if (page.isDeleted == false) {
-      await programModel.findOneAndUpdate(
-        { programId: programId },
-        { $set: { isDeleted: true, deletedAt: new Date() } }
-      );
+    // Convert programId to Number as your id in schema is of type Number
+    programId = Number(programId);
 
+    // Check if the document exists and is not deleted
+    const page = await programModel.findOne({
+      id: programId,
+      isDeleted: false,
+    });
+    if (!page) {
       return res
-        .status(200)
-        .send({ status: true, message: `Data deleted successfully.` });
+        .status(404)
+        .send({ status: false, message: `Page not found or already deleted` });
     }
+
+    // Perform the hard delete
+    await programModel.findOneAndDelete({ id: programId });
+
     return res
-      .status(400)
-      .send({ status: true, message: `Data has been already deleted.` });
+      .status(200)
+      .send({ status: true, message: `Data deleted successfully.` });
   } catch (err) {
     return res
       .status(500)
-      .send({ status: false, msg: "server error", error: err.message });
+      .send({ status: false, msg: "Server error", error: err.message });
   }
 };
 module.exports = {
