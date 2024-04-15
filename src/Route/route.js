@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-// const Middleware = require("../middleware/authorization");
+const Middleware = require("../middleware/authorization")
 const storage = multer.memoryStorage(); // using memory storage for simplicity
 const upload = multer({ storage: storage });
 const {
@@ -116,12 +116,12 @@ router.put("/updateContactEmailData/:contactEmailId", updatecontactEmail);
 router.delete("/deletecontactEmailData", deletecontactEmail);
 router.delete("/DeleteContactEmaildat", DeletecontactEmaildata);
 //Home//
-router.post("/createData", homeData);
+router.post("/createData", Middleware.loginCheck, homeData);
 router.get("/getData", getData);
 router.get("/getById/:homeId", getById);
-router.put("/updateData/:homeId", upload.single("Photo"), updateData);
+router.put("/updateData/:homeId", upload.single("Photo"), Middleware.loginCheck, updateData);
 router.delete("/deleteData", Deletedata);
-router.delete("/deleteId/:homeId", DeleteById);
+router.delete("/deleteId/:homeId", Middleware.loginCheck, DeleteById);
 
 //HomeContact
 router.post("/createemailData", upload.single("Photo"), Studenthomecontacts);
@@ -136,36 +136,36 @@ router.delete("/deleteemailData", Deletehomecontactdata);
 router.delete("/deleteemailId/:homecontactId", deletehomecontact);
 
 //program
-router.post("/createprogramData", programData);
+router.post("/createprogramData", Middleware.loginCheck, programData);
 router.get("/getprogramData", getprogramData);
 router.get("/getprogramById/:programId", getprogramById);
 router.put(
   "/updateprogramData/:programId",
-  upload.single("Photo"),
+  upload.single("Photo"), Middleware.loginCheck,
   updateprogramData
 );
-router.delete("/deleteprogramData", Deleteprogramdata);
-router.delete("/deleteprogramId/:programId", DeleteprogramById);
+router.delete("/deleteprogramData", Middleware.loginCheck, Deleteprogramdata);
+router.delete("/deleteprogramId/:programId", Middleware.loginCheck, DeleteprogramById);
 
 //Gallery
-router.post("/creategalleryData", upload.single("Photo"), galleryData);
+router.post("/creategalleryData", upload.single("Photo"), Middleware.loginCheck, galleryData);
 router.get("/getgalleryData", getgalleryData);
 router.get("/getgalleryById/:galleryId", getgalleryById);
 router.put(
   "/updategalleryData/:galleryId",
-  upload.single("Photo"),
+  upload.single("Photo"), Middleware.loginCheck,
   updategalleryData
 );
-router.delete("/deletegalleryData", Deletegallerydata);
-router.delete("/deletegalleryId/:galleryId", DeletegalleryById);
+router.delete("/deletegalleryData", Middleware.loginCheck, Deletegallerydata);
+router.delete("/deletegalleryId/:galleryId", Middleware.loginCheck, DeletegalleryById);
 
 //Career
-router.post("/careerData", upload.single("Photo"), careerData);
+router.post("/careerData", upload.single("Photo"), Middleware.loginCheck, careerData);
 router.get("/getcareerData", getcareerData);
 // router.get("/getgalleryById/:careerId", getcareerById);
 router.put(
   "/updateCareerData/:careerId",
-  upload.single("Photo"),
+  upload.single("Photo"), Middleware.loginCheck,
   updatecareerData
 );
 router.delete("/deletecareerData", DeletecareerData);
@@ -173,16 +173,16 @@ router.delete("/deletecareerId/:careerId", DeletecareerById);
 
 //careerImage
 
-router.post("/careerImageData",upload.single("Photo"), careerImageData);
+router.post("/careerImageData", upload.single("Photo"), Middleware.loginCheck, careerImageData);
 router.get("/getcareerImageData", getcareerImageData);
 router.get("/getcareerImageById/:careerImageId", getcareerImageById);
 router.put(
   "/updatecareerImageData/:careerImageId",
-  upload.single("Photo"),
+  upload.single("Photo"), Middleware.loginCheck,
   updatecareerImageData
 );
-router.delete("/DeletecareerImagedata", DeletecareerImagedata);
-router.delete("/DeletecareerImageById/:careerImageId", DeletecareerImageById);
+router.delete("/DeletecareerImagedata", Middleware.loginCheck, DeletecareerImagedata);
+router.delete("/DeletecareerImageById/:careerImageId", Middleware.loginCheck, DeletecareerImageById);
 //contactPage
 router.post("/contactpageData", upload.single("Photo"), contacpageData);
 router.get("/getcontactpageData", getcontacpageData);
@@ -203,16 +203,16 @@ router.delete("/deletecontactData", deleteContact);
 router.delete("/DeleteContactdat", DeleteContactdata);
 
 //About//
-router.post("/createaboutData", upload.single("Photo"), aboutData);
+router.post("/createaboutData", upload.single("Photo"), Middleware.loginCheck, aboutData);
 router.get("/getaboutData", getaboutData);
 router.get("/getaboutById/:aboutId", getaboutById);
 router.put(
   "/updataabouteData/:aboutId",
-  upload.single("Photo"),
+  upload.single("Photo"), Middleware.loginCheck,
   updateaboutData
 );
-router.delete("/deleteaboutData", Deleteaboutdata);
-router.delete("/deleteaboutId/:aboutId", DeleteaboutById);
+router.delete("/deleteaboutData", Middleware.loginCheck, Deleteaboutdata);
+router.delete("/deleteaboutId/:aboutId", Middleware.loginCheck, DeleteaboutById);
 
 //***********  User *************//
 
